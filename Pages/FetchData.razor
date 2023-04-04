@@ -1,0 +1,106 @@
+﻿@page "/fetchdata"
+
+<PageTitle>Person Form</PageTitle>
+
+@using Blazor.FormBuilderComponent.Data
+@using Blazor.FormBuilderComponent.Helpers;
+@using System.ComponentModel;
+@using System.ComponentModel.DataAnnotations;
+@using Microsoft.AspNetCore.Components.CompilerServices;
+@inject PeopleService PeopleService
+
+@*<EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    
+    <table>
+    
+        <tr style="height:68px;">
+            <td style="width:200px;"><label for="identifier">person ID: </label></td>
+            <td><MatNumericUpDownField id="identifier" @bind-Value=@person.ID /></td>
+            <td><ValidationMessage For="() => person.ID" /></td>
+        </tr>
+        <tr style ="height:68px;">
+            <td><label for="classification">person Name: </label></td>
+            <td><MatTextField id="classification" @bind-Value=@person.personName /></td>
+            <td><ValidationMessage For="() => person.personName" /></td>
+        </tr>
+        <tr style ="height:68px;">
+            <td><label for="description">Description: </label></td>
+            <td><MatTextField id="description" @bind-Value=@person.Description /></td>
+            <td><ValidationMessage For="() => person.Description" /></td>
+        </tr>
+        <tr style="height:68px;">
+            <td><label for="version">Version (decimal): </label></td>
+            <td><MatNumericUpDownField id="accommodation" @bind-Value="person.Version" DecimalPlaces=2 readonly=@true disabled=@true /></td>
+            <td><ValidationMessage For="() => person.Version" /></td>
+        </tr>
+        <tr style="height:68px;">
+            <td><label for="CreatedDate">Last Modified: </label></td>
+            <td><MatDatePicker id="CreatedDate" EnableTime="true" @bind-Value="person.CreatedDate" /></td>
+            <td><ValidationMessage For="() => person.CreatedDate" /></td>
+        </tr>
+        <tr style="height:68px;">
+            <td><label for="SocialLink">SocialLink: </label></td>
+            <td><MatTextField id="SocialLink" @bind-Value="person.SocialLink" type="url" /></td>
+            <td><ValidationMessage For="() => person.SocialLink" /></td>
+        </tr>
+        <tr style="height:68px;">
+            <td><label for="hiddentext">Hidden Text: </label></td>
+            <td><MatTextField id="hiddentext" @bind-Value="person.HiddenText" /></td>
+            <td><ValidationMessage For="() => person.HiddenText" /></td>
+        </tr>
+        <tr style="height:68px;">
+            <td><label for="Passport">Secret: </label></td>
+            <td><MatTextField id="Passport" @bind-Value="person.Passport" type="Passport" /></td>
+            <td><ValidationMessage For="() => person.Passport" /></td>
+        </tr>
+        
+            <tr style="height:68px;">
+                <td><label for="personType">person Type: </label></td>
+                <td>
+                    <MatSelectItem Items="@persontypes" @bind-Value="person.personType"></MatSelectItem>            
+                </td>
+                <td><ValidationMessage For="() => person.personType" /></td>
+            </tr>
+        
+    </table>
+
+    <ValidationSummary />
+    <button type="submit">Submit</button>
+</EditForm>*@
+
+<br />
+<h1>Dynamic builder</h1>
+
+@*Model="@person"*@
+<EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+
+    <FormComponent EventTarget=@this DataContext="@person" />
+
+    <ValidationSummary></ValidationSummary>
+</EditForm>
+<br />
+
+@code {
+    private Person? person = null;
+    private EditContext? editContext;
+
+    protected override void OnInitialized()
+    {
+        // Get model from service dependency
+        person = PeopleService?.GetPeople()?.FirstOrDefault() ?? new Person();
+        
+        // Set default properties
+        ReflectionHelpers.AssignDefaultValues(person);
+
+        // Assign form edit context
+        editContext = new(person);
+        editContext.SetFieldCssClassProvider(new CustomFieldClassProvider2());
+    }
+
+    private void HandleValidSubmit()
+    {
+        // Save the data
+    }
+}

@@ -1,0 +1,34 @@
+﻿@*@typeparam TObject*@
+@*@inherits FormGeneratorComponent<TObject>*@
+
+<style>
+    .hidden {
+        visibility: hidden;
+    }
+
+    .invalid {
+        outline: 0px solid red;
+    }
+
+</style>
+
+<EditForm Model="@DataContext">
+    <DataAnnotationsValidator />
+    
+    <table>
+        @foreach (var field in Properties)
+        {
+            <tr style="height:68px;">
+                <td style="width:200px;">
+                    <label>@field.Name: </label>
+                </td>
+                <td>@RenderFormElement(field)</td>
+                <td>@RenderValidationElement(field)</td>
+                @*<td><ValidationMessage For="() => this[field]" /></td>*@
+            </tr>
+        }
+    </table>
+
+    <ValidationSummary />
+    @*<button type="submit">Submit</button>*@
+</EditForm>
