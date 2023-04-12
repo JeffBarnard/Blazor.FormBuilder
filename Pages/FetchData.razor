@@ -3,9 +3,9 @@
 <PageTitle>Person Form</PageTitle>
 
 @using Blazor.FormBuilderComponent.Data
-@using Blazor.FormBuilderComponent.Helpers;
 @using System.ComponentModel;
 @using System.ComponentModel.DataAnnotations;
+@using Blazor.FormBuilderComponent.Helpers;
 @using Microsoft.AspNetCore.Components.CompilerServices;
 @inject PeopleService PeopleService
 
@@ -69,38 +69,38 @@
     <button type="submit">Submit</button>
 </EditForm>*@
 
-<br />
 <h1>Dynamic builder</h1>
 
 @*Model="@person"*@
-<EditForm EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
+@*EditContext="@editContext"*@
+@*OnValidSubmit="@HandleValidSubmit"*@
+
+@using Blazor.FormBuilderComponent;
+
+<EditForm Model="@person">
     <DataAnnotationsValidator />
-
     <FormComponent EventTarget=@this DataContext="@person" />
-
     <ValidationSummary></ValidationSummary>
 </EditForm>
-<br />
 
 @code {
     private Person? person = null;
-    private EditContext? editContext;
-
+    
     protected override void OnInitialized()
     {
         // Get model from service dependency
         person = PeopleService?.GetPeople()?.FirstOrDefault() ?? new Person();
-        
+
         // Set default properties
         ReflectionHelpers.AssignDefaultValues(person);
-
-        // Assign form edit context
-        editContext = new(person);
-        editContext.SetFieldCssClassProvider(new CustomFieldClassProvider2());
     }
+
+    //    // Assign form edit context
+    //    editContext = new(person);
+    //    editContext.SetFieldCssClassProvider(new CustomFieldClassProvider2());
 
     private void HandleValidSubmit()
     {
         // Save the data
     }
-}
+} 

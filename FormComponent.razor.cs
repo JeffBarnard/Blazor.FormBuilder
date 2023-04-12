@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MatBlazor;
 using System.Reflection;
-using Blazor.FormBuilderComponent.Helpers.Extensions;
+using Blazor.FormBuilderComponent.Extensions;
 
-namespace Blazor.FormBuilderComponent.Helpers
+namespace Blazor.FormBuilderComponent
 {
     public partial class FormComponent
     {
@@ -39,7 +39,7 @@ namespace Blazor.FormBuilderComponent.Helpers
             ArgumentNullException.ThrowIfNull(EventTarget);
             ArgumentNullException.ThrowIfNull(DataContext);
             ArgumentNullException.ThrowIfNull(prp);
-                       
+
             switch (prp.PropertyType.Name)
             {
                 case nameof(String):
@@ -67,7 +67,7 @@ namespace Blazor.FormBuilderComponent.Helpers
                         builder.CreateComponent<MatTextField<string>, string>(EventTarget, DataContext, prp);
                     }
                     break;
-            }        
+            }
         };
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Blazor.FormBuilderComponent.Helpers
         {
             get
             {
-                return property.GetValue(this.DataContext);
+                return property.GetValue(DataContext);
             }
         }
 

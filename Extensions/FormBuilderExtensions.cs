@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.AspNetCore.Components.CompilerServices;
 
-namespace Blazor.FormBuilderComponent.Helpers.Extensions
+namespace Blazor.FormBuilderComponent.Extensions
 {
     /// <summary>
     /// RenderTreeBuilder extensions to construct form components
